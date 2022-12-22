@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -6,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CustomerDto } from './dto/customer.dto';
@@ -14,28 +16,39 @@ import { CustomerDto } from './dto/customer.dto';
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
-  @Post()
-  create(@Body() createCustomerDto: CustomerDto) {
-    return this.customerService.create(createCustomerDto);
+  // mensaje de acceso al users root
+  @Get()
+  getMessage(): string {
+    return this.customerService.getCustomerMessage();
   }
 
-  @Get()
+  // creacion de nuevo customer
+  @Post('newCustomer')
+  create(@Body() customerDto: CustomerDto) {
+    return this.customerService.create(customerDto);
+  }
+
+  // listado de todos los usuarios
+  @Get('list')
   findAll() {
     return this.customerService.findAll();
   }
 
-  @Get(':id')
+  // busqueda de un usuario por ID
+  @Get('find/:id')
   findOne(@Param('id') id: string) {
-    return this.customerService.findOne(+id);
+    return this.customerService.findOne(id);
   }
 
-  @Patch(':id')
+  // modificacion de todos los datos del usuario
+  @Put('update/:id')
   update(@Param('id') id: string, @Body() updateCustomerDto: CustomerDto) {
-    return this.customerService.update(+id, updateCustomerDto);
+    return this.customerService.update(id, updateCustomerDto);
   }
 
-  @Delete(':id')
+  // eliminacion del usuario que coincida con el ID
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
-    return this.customerService.remove(+id);
+    return this.customerService.remove(id);
   }
 }
