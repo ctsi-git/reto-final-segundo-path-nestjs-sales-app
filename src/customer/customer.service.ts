@@ -34,8 +34,8 @@ export class CustomerService {
   // Recibe un ID como parametro a buscar
   // Devuelve el cliente encontrado
   findOne(id: string) {
-    const customer = this.findCustomerByID(id);
-    return [...customer];
+    const customer = this.findCustomerByID(id)[0];
+    return [customer];
   }
 
   // Actualiza el cliente que coincida con el ID provisto
@@ -62,10 +62,6 @@ export class CustomerService {
   // Devuelve True si borro el cliente, sino NotFound
   remove(id: string) {
     const res = this.findCustomerByID(id)[1];
-    if (!res) {
-      // Envia una excepcion 404 ( Not found )
-      throw new NotFoundException(`No se encuentra cliente con el id: ${id}`);
-    }
     this.customers.splice(res, 1);
     return true;
   }

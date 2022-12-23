@@ -18,14 +18,19 @@ export class InvoiceService {
     const invoiceDetails: Array<InvoiceDetailDto> = [];
     let total = 0;
 
-    invoiceDto.detail.forEach((element) => {
-      total += element.toPay;
-      invoiceDetails.push(element);
-    });
+    // Genera los detalles de la factura
+    for (let i = 0; i < invoiceDto.detail.length; i++) {
+      let newDetail = new InvoiceDetailDto();
+      newDetail = invoiceDto.detail[i];
+      newDetail.toPay = newDetail.quantity * newDetail.price;
+      newDetail.dateAdded = new Date(Date.now()).toISOString();
+      total += newDetail.toPay;
+      invoiceDetails.push(newDetail);
+    }
 
     const newInvoice = new Invoice(
       id,
-      Date.now().toString(),
+      new Date(Date.now()).toISOString(),
       invoiceDto.customerId,
       invoiceDetails,
       total,
@@ -58,7 +63,13 @@ export class InvoiceService {
     const invoiceDetails: Array<InvoiceDetailDto> = [];
     let total = 0;
 
+    //Genera los detalles de la factura
     updateInvoiceDto.detail.forEach((element) => {
+      if (element.dateAdded === '') {
+        element.toPay = element.price * element.quantity;
+        total += element.toPay;
+        element.dateAdded = new Date(Date.now()).toISOString();
+      }
       total += element.toPay;
       invoiceDetails.push(element);
     });
@@ -69,7 +80,7 @@ export class InvoiceService {
       updateInvoiceDto.customerId,
       invoiceDetails,
       total,
-      Date.now().toString(),
+      new Date(Date.now()).toISOString(),
     );
 
     this.invoices[index] = updatedInvoice;
@@ -81,10 +92,6 @@ export class InvoiceService {
   // Devuelve True si borro el invoice, sino NotFound
   remove(id: string) {
     const res = this.findInvoiceByID(id)[1];
-    if (!res) {
-      // Envia una excepcion 404 ( Not found )
-      throw new NotFoundException(`No se encuentra factura con el id: ${id}`);
-    }
     this.invoices.splice(res, 1);
     return true;
   }
