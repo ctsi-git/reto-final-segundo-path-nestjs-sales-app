@@ -1,5 +1,7 @@
-## Reto final de la segunda ruta del pathway de Nest
+# Reto final de la segunda ruta del pathway de Nest
 ### por Edinson Acosta Gancharov
+
+### Video Explicativo: *https://youtu.be/e2dmZk9pXgo*
 <hr>
 
 ## Descripcion

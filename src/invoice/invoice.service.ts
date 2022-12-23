@@ -74,10 +74,15 @@ export class InvoiceService {
       invoiceDetails.push(element);
     });
 
+    //verifico que el costumer ID sea correcto
+    let costumerID = invoice.customerId;
+    if (updateInvoiceDto.customerId != '') {
+      costumerID = updateInvoiceDto.customerId;
+    }
     const updatedInvoice = new Invoice(
       id,
       invoice.dateCreated,
-      updateInvoiceDto.customerId,
+      costumerID,
       invoiceDetails,
       total,
       new Date(Date.now()).toISOString(),
