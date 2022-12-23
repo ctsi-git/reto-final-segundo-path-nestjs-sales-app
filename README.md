@@ -1,6 +1,7 @@
-## Reto final de la segunda ruta del pathway de Nest
+# Reto final de la segunda ruta del pathway de Nest
 ### por Edinson Acosta Gancharov
-<hr>
+
+### Enlace a video explicativo: 
 
 ## Descripcion
 El presente trabajo consiste en la creacion de una App con sus respectivos controladores, modulos y servicios basados en el siguiente esquema:
